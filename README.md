@@ -1,7 +1,7 @@
 # JTimer for JAVA
 
 #### 项目介绍
-基于SpringBoot+layui秒级定时任务管理，crontab替代品
+基于SpringBoot+layui秒级定时任务管理
 
 #### PHP版本
 https://gitee.com/itzhoujun/JTimer
@@ -20,19 +20,10 @@ https://gitee.com/itzhoujun/JTimer
 1. 创建数据库jtimer，将src/main/resources目录下jtimer.sql导入
 2. 修改application.yml中数据库连接配置
 3. 在项目根目录下执行mvn clean package -Dmaven.test.skip=true打包项目
-4. 创建start.sh脚本：
+4. 创建run.bat脚本：
+
 ```
 #!/bin/sh
 java -jar target/jtimer-0.0.1-SNAPSHOT.jar  >> jtimer.log 2>&1 &
 ```
-赋予执行权限
-```
-chmod +x start.sh
-```
-启动
-```
-./start.sh
-```
 后台默认用户名密码：admin/admin
-
-当前版本缺少登录验证码功能，后续版本补上

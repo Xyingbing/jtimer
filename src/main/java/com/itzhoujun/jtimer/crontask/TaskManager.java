@@ -154,13 +154,10 @@ public class TaskManager {
 
             try {
                 Process process = Runtime.getRuntime().exec(cmds);
-                process.waitFor();//需要阻塞当前线程
                 Float spendTime = new Float((System.currentTimeMillis() - begin) / 1000.0);
                 log.setSpendTime(spendTime);
                 cronTaskLogMapper.insert(log);
             } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
