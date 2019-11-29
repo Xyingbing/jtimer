@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <div th:include="public/css"></div>
+</head>
+<body>
+<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+    <ul class="layui-tab-title">
+        <li class="layui-this">系统设置</li>
+        <li class="">日志设置</li>
+
+    </ul>
+    <div class="layui-tab-content">
+        <br>
+            <div class="layui-tab-item layui-show ">
+                <form class="layui-form" action="/Setting/postSetting" method="post">
+                    <div th:each="vo:${sysSettings}">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" th:text="${vo.title}"></label>
+
+                            <!--普通文本-->
+                            <span th:if="${vo.type} eq 1">
+                                <div class="layui-input-inline">
+                                    <input type="text" th:name="${vo.name}" autocomplete="off" class="layui-input" th:value="${vo.value}">
+                                </div>
+                            </span>
+
+                            <!--文本域-->
+                            <span th:if="${vo.type} eq 2">
+                                <div class="layui-input-inline">
+                                    <textarea  th:name="${vo.name}" autocomplete="off" class="layui-textarea" th:text="${vo.value}"></textarea>
+                                </div>
+                            </span>
+                            <!--下拉框-->
+                            <span th:if="${vo.type} eq 3">
+                                <div class="layui-input-inline">
+                                    <select th:name="${vo.name}" >
+                                        <span th:each="option:${vo.optionList}">
+                                            <option th:value="${option.value}" th:text="${option.name}"
+                                                    th:selected="${vo.value} eq ${option.value}"
+                                            >{$option.name}</option>
+                                        </span>
+                                    </select>
+                                </div>
+                            </span>
+
+
+                            <div class="layui-form-mid layui-word-aux" th:text="${vo.remark}"></div>
+
+
+                        </div>
+                    </div>
+
+
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit="" lay-filter="form1">提交</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        <div class="layui-tab-item ">
+            <form class="layui-form" action="/Setting/postSetting" method="post">
+                <div th:each="vo:${userSettings}">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" th:text="${vo.title}"></label>
+
+                        <!--普通文本-->
+                        <span th:if="${vo.type} eq 1">
+                                <div class="layui-input-inline">
+                                    <input type="text" th:name="${vo.name}" autocomplete="off" class="layui-input" th:value="${vo.value}">
+                                </div>
+                            </span>
+
+                        <!--文本域-->
+                        <span th:if="${vo.type} eq 2">
+                                <div class="layui-input-inline">
+                                    <textarea  th:name="${vo.name}" autocomplete="off" class="layui-textarea" th:text="${vo.value}"></textarea>
+                                </div>
+                            </span>
+                        <!--下拉框-->
+                        <span th:if="${vo.type} eq 3">
+                                <div class="layui-input-inline">
+                                    <select th:name="${vo.name}" >
+                                        <span th:each="option:${vo.optionList}">
+                                            <option th:value="${option.value}" th:text="${option.name}"
+                                                    th:selected="${vo.value} eq ${option.value}"
+                                            >{$option.name}</option>
+                                        </span>
+                                    </select>
+                                </div>
+                            </span>
+
+
+                        <div class="layui-form-mid layui-word-aux" th:text="${vo.remark}"></div>
+
+
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit="" lay-filter="form1">提交</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+</body>
+<div th:include="public/js"></div>
+
+
+
+<script>
+    layui.use(['element','form'], function(){
+        var element = layui.element,form = layui.form;
+
+
+    });
+</script>
+</html>

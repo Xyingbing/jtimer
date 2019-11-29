@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>后台登录</title>
+    <link href="/static/css/login.css" type="text/css" rel="stylesheet">
+    <div th:include="public/css" ></div>
+    <style>
+        .hr15{
+            background-color: white !important;
+        }
+        .hr20{
+            background-color: white !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login">
+    <div class="message">JTimer秒级定时任务管理</div>
+    <div id="darkbannerwrap"></div>
+
+    <form method="post" onsubmit="return false;">
+        <input id="username" placeholder="用户名"  type="text">
+        <hr class="hr15">
+        <input id="password" placeholder="密码" required="" type="password">
+        <hr class="hr15">
+
+        <input value="登录" style="width:100%;" id="sub" type="submit">
+        <hr class="hr20">
+        <!-- 帮助 <a onClick="alert('请联系管理员')">忘记密码</a> -->
+    </form>
+
+
+</div>
+
+<div class="copyright">© JTimer秒级定时任务管理 by<a href="https://blog.csdn.net/u010837612" target="_blank">周君</a></div>
+
+</body>
+<div th:include="public/js"></div>
+<script>
+    layui.use(['form'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+
+
+    });
+    $('#sub').on('click',function(){
+        $.ajax({
+            url:"/public/login",
+            type:"POST",
+            data:{
+                username:$('#username').val(),
+                password:$('#password').val()
+            },
+            dataType:"json",
+            success:function(data){
+                if(data.code === 1){
+                    location.href=data.url;
+                }else{
+                    layer.msg(data.msg,{icon:5});
+                }
+            }
+        });
+    })
+</script>
+</html>

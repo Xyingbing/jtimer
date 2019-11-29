@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <div th:include="public/css"></div>
+    <style>
+        .help-icon{
+            margin-left:10px;
+            margin-right: 10px;
+        }
+        .help-icon:hover{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend><span th:switch="${vo}">
+        <span th:case="null">新增</span>
+        <span th:case="*">编辑</span>
+    </span>任务</legend>
+</fieldset>
+
+<form class="layui-form" action="/CronTask/doUpdate" method="post">
+    <div class="layui-form-item">
+        <div class="layui-form-item">
+            <label class="layui-form-label">项目所属</label>
+            <div class="layui-input-inline">
+                <select name="cateId" lay-verify="required">
+                    <option value="0">请选择</option>
+                    <div th:each="cate:${cateList}">
+                        <option th:value="${cate.id}" th:text="${cate.name}"
+                                th:selected="${cate.id eq vo?.cateId}"
+                        ></option>
+                    </div>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <input type="text" name="remark" th:value="${vo?.remark}"   placeholder="请输入备注说明" autocomplete="off" class="layui-input" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">cron表达式</label>
+            <div class="layui-input-inline">
+                <input type="text" style="font-size:18px;" name="cronExpression" th:value="${vo?.cronExpression}" lay-verify="required" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-input-inline">
+                <i class="layui-icon help-icon">&#xe607;</i>
+            </div>
+            <div class="layui-form-mid layui-word-aux ">注意：此处cron表达式比crontab多一位（第一位是秒）</div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">命令</label>
+            <div class="layui-input-block">
+                <input type="text" name="cmd" lay-verify="required"  placeholder="请输入要执行的命令" autocomplete="off" class="layui-input" th:value="${vo?.cmd}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+                <input type="radio" name="status" lay-verify="required" value="0" title="禁用" checked >
+                <input type="radio" name="status" lay-verify="required" value="1" title="正常" th:checked="${vo?.status eq 1}">
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="id" th:value="${vo?.id}">
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="form1">提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+</body>
+<div th:include="public/js"></div>
+
+<script>
+    layui.use(['form'], function(){
+        var form = layui.form
+            ,layer = layui.layer;
+
+        //监听提交
+        form.on('submit(form1)', function(data){
+            api.post("/CronTask/doUpdate",data.field);
+            return false;
+        });
+
+        $('.help-icon').hover(function () {
+            layer.tips('查看帮助', '.help-icon', {
+                tips: 1
+            });
+        },function(){});
+
+        $('.help-icon').on('click',function(){
+            layer.open({
+                type: 2,
+                title: 'cron表达式帮助',
+                shadeClose: true,
+                shade: false,
+                maxmin: true, //开启最大化最小化按钮
+                area: ['893px', '500px'],
+                content: '/CronTask/help'
+            });
+        });
+
+
+    });
+
+</script>
+</html>
